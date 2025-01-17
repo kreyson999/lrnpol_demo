@@ -1,0 +1,84 @@
+type CourseSectionStepTest
+  @model(subscriptions: { level: off })
+  @auth(
+    rules: [
+      { allow: owner, operations: [read, update, delete] }
+      { allow: groups, groups: ["user"], operations: [read] }
+      { allow: public, operations: [read] }
+      { allow: private, provider: iam }
+    ]
+  ) {
+  id: ID! @primaryKey
+
+  questions: [CourseSectionStepTestQuestion]
+    @hasMany(indexName: "byTest", fields: ["id"])
+
+  owner: String
+    @auth(
+      rules: [
+        { allow: owner, operations: [read, delete] }
+        { allow: groups, groups: ["admin"], operations: [read, delete] }
+        { allow: groups, groups: ["user"], operations: [read] }
+      ]
+    )
+}
+
+enum CourseSectionStepTestQuestionType {
+  MULTIPLE_CHOICE
+  # TRUE_FALSE
+  # TEXT_INPUT
+}
+
+type CourseSectionStepTestQuestionAnswer {
+  id: ID!
+
+  text: String
+  imageKey: String
+}
+
+type CourseSectionStepTestQuestion
+  @model(subscriptions: { level: off })
+  @auth(
+    rules: [
+      { allow: owner, operations: [read, update, delete] }
+      { allow: groups, groups: ["admin"] }
+      { allow: groups, groups: ["user"], operations: [read] }
+      { allow: public, operations: [read] }
+      { allow: private, provider: iam }
+    ]
+  ) {
+  id: ID! @primaryKey
+  type: CourseSectionStepTestQuestionType!
+
+  position: Int!
+
+  text: String
+  imageKey: String
+
+  answers: [CourseSectionStepTestQuestionAnswer]
+  correctAnswers: [ID]
+
+  testId: ID!
+    @auth(
+      rules: [
+        { allow: owner, operations: [read, delete] }
+        { allow: groups, groups: ["admin"], operations: [read, delete] }
+        { allow: groups, groups: ["user"], operations: [read] }
+      ]
+    )
+    @index(
+      name: "byTest"
+      sortKeyFields: ["position"]
+      queryField: "courseSectionStepTestQuestionByTest"
+    )
+  test: CourseSectionStepTest! @belongsTo(fields: ["testId"])
+
+  owner: String
+    @auth(
+      rules: [
+        { allow: owner, operations: [read, delete] }
+        { allow: groups, groups: ["admin"], operations: [read, delete] }
+        { allow: groups, groups: ["user"], operations: [read] }
+      ]
+    )
+}

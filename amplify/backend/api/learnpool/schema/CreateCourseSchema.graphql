@@ -1,0 +1,124 @@
+type CourseSubscriptionPlan
+  @model(subscriptions: { level: off })
+  @auth(
+    rules: [
+      { allow: groups, groups: ["admin"], operations: [read] }
+      { allow: groups, groups: ["user"], operations: [read] }
+      { allow: public, operations: [read] }
+      { allow: private, provider: iam }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  description: String!
+  price: Float!
+  features: [String!]!
+  maxHours: Int!
+  subscriptions: [CourseSubscription]
+    @hasMany
+    @auth(rules: [{ allow: groups, groups: ["admin"], operations: [read] }])
+}
+
+enum CourseSubscriptionStatus {
+  NOT_STARTED
+  ACTIVE
+  SUSPENDED
+  CANCELLED
+}
+
+type CourseSubscription
+  @model(subscriptions: { level: off })
+  @auth(
+    rules: [
+      { allow: private, provider: identityPool }
+      { allow: owner, operations: [read] }
+    ]
+  ) {
+  id: ID!
+
+  courseSlug: String!
+    @index(
+      name: "byCourseSlug"
+      queryField: "subscriptionByCourseSlug"
+      sortKeyFields: ["startDate"]
+    )
+  course: Course! @belongsTo(fields: ["courseSlug"])
+
+  courseSubscriptionPlanId: ID!
+  courseSubscriptionPlan: CourseSubscriptionPlan!
+    @belongsTo(fields: ["courseSubscriptionPlanId"])
+
+  startDate: AWSDateTime!
+  expirationDate: AWSDateTime!
+
+  status: CourseSubscriptionStatus
+    @auth(
+      rules: [
+        { allow: private, provider: identityPool }
+        { allow: owner, operations: [read] }
+      ]
+    )
+
+  payments: [CourseSubscriptionPayment] @hasMany
+  owner: String @auth(rules: [{ allow: owner, operations: [read] }])
+}
+
+enum CourseSubscriptionPaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+type CourseSubscriptionPayment
+  @model(subscriptions: { level: off })
+  @auth(
+    rules: [
+      { allow: private, provider: identityPool }
+      { allow: owner, operations: [read] }
+    ]
+  ) {
+  id: ID!
+
+  subscriptionId: ID!
+  subscription: CourseSubscription! @belongsTo(fields: ["subscriptionId"])
+
+  amount: Float!
+  paymentMethod: PaymentMethod!
+
+  status: CourseSubscriptionPaymentStatus!
+    @auth(
+      rules: [
+        { allow: private, provider: identityPool }
+        { allow: owner, operations: [read] }
+      ]
+    )
+
+  owner: String @auth(rules: [{ allow: owner, operations: [read] }])
+}
+
+enum CourseVerificationStatus {
+  PENDING
+  VERIFIED
+  NOT_SUITABLE
+}
+
+type CourseVerification
+  @model(subscriptions: { level: off })
+  @auth(
+    rules: [
+      { allow: private, provider: identityPool }
+      { allow: owner, operations: [read] }
+    ]
+  ) {
+  id: ID!
+
+  courseSlug: String!
+    @index(name: "byCourseSlug", queryField: "verificationByCourseSlug")
+  course: Course! @belongsTo(fields: ["courseSlug"])
+
+  message: String
+
+  status: CourseVerificationStatus!
+
+  owner: String @auth(rules: [{ allow: owner, operations: [read] }])
+}

@@ -1,0 +1,59 @@
+.richText ul {
+  list-style-type: disc !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.richText ol {
+  list-style-type: decimal !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.richText a {
+  color: rgb(33, 111, 219) !important;
+  text-decoration: none !important;
+}
+
+.richText p {
+  margin: 0 !important;
+  margin-bottom: 8px !important;
+  position: relative !important;
+}
+
+.richText p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.richText h1 {
+  font-size: 32px !important;
+  color: white !important;
+  font-weight: 400 !important;
+  margin: 0 !important;
+  margin-bottom: 12px !important;
+  padding: 0 !important;
+}
+
+.richText h2 {
+  font-size: 16px !important;
+  color: #242424 !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+  margin-top: 10px !important;
+  padding: 0 !important;
+}
+
+.richText blockquote {
+  margin: 0 !important;
+  margin-left: 20px !important;
+  font-size: 15px !important;
+  color: #dcdcdc !important;
+  border-left-color: #9022ff !important;
+  border-left-width: 4px !important;
+  border-left-style: solid !important;
+  padding-left: 16px !important;
+}
+
+.richText li {
+  margin: 8px 32px 8px 32px !important;
+}

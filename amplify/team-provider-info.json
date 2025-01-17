@@ -1,0 +1,111 @@
+{
+  "master": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-learnpool-master-175551-authRole",
+      "UnauthRoleArn": "arn:aws:iam::645819159591:role/amplify-learnpool-master-175551-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::645819159591:role/amplify-learnpool-master-175551-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-learnpool-master-175551-deployment",
+      "UnauthRoleName": "amplify-learnpool-master-175551-unauthRole",
+      "StackName": "amplify-learnpool-master-175551",
+      "StackId": "arn:aws:cloudformation:eu-central-1:645819159591:stack/amplify-learnpool-master-175551/9cb6f880-d662-11ee-beeb-0205372a9f2b",
+      "AmplifyAppId": "d2741sbggmp4xi",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-learnpool-master-175551-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-learnpool-master-175551-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
+    },
+    "categories": {
+      "auth": {
+        "learnpoolauthdev": {},
+        "userPoolGroups": {}
+      },
+      "function": {
+        "learnpoolAfterMediaConvertTrigger": {
+          "deploymentBucketName": "amplify-learnpool-master-175551-deployment",
+          "s3Key": "amplify-builds/learnpoolAfterMediaConvertTrigger-4239577558764a6e7950-build.zip",
+          "cdnHostname": "https://cdn.learnpool.pl/"
+        },
+        "learnpoolGetUserCourse": {
+          "deploymentBucketName": "amplify-learnpool-master-175551-deployment",
+          "s3Key": "amplify-builds/learnpoolGetUserCourse-6d382b316a5447783646-build.zip"
+        },
+        "learnpoolauthdevPostConfirmation": {
+          "GROUP": "user",
+          "deploymentBucketName": "amplify-learnpool-master-175551-deployment",
+          "s3Key": "amplify-builds/learnpoolauthdevPostConfirmation-656e4b7942447779336e-build.zip"
+        },
+        "learnpoolstoragetrigger": {
+          "deploymentBucketName": "amplify-learnpool-master-175551-deployment",
+          "s3Key": "amplify-builds/learnpoolstoragetrigger-4c704939444d32304852-build.zip",
+          "mediaconvertDestinationBucket": "s3://learnpool-media-bucket/"
+        },
+        "learnpool": {},
+        "learnpoolauthdev": {},
+        "learnpoolauthdevPreSignup": {
+          "deploymentBucketName": "amplify-learnpool-master-175551-deployment",
+          "s3Key": "amplify-builds/learnpoolauthdevPreSignup-4e364543314352734443-build.zip"
+        }
+      },
+      "storage": {
+        "learnpooldevs3": {}
+      },
+      "api": {
+        "learnpool": {}
+      },
+      "analytics": {
+        "learnpool": {}
+      }
+    }
+  },
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-learnpool-dev-130655-authRole",
+      "UnauthRoleArn": "arn:aws:iam::645819159591:role/amplify-learnpool-dev-130655-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::645819159591:role/amplify-learnpool-dev-130655-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-learnpool-dev-130655-deployment",
+      "UnauthRoleName": "amplify-learnpool-dev-130655-unauthRole",
+      "StackName": "amplify-learnpool-dev-130655",
+      "StackId": "arn:aws:cloudformation:eu-central-1:645819159591:stack/amplify-learnpool-dev-130655/e52ea560-c355-11ee-8746-02a800e8aef9",
+      "AmplifyAppId": "d2741sbggmp4xi",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-learnpool-dev-130655-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-learnpool-dev-130655-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
+    },
+    "categories": {
+      "function": {
+        "learnpoolAfterMediaConvertTrigger": {
+          "deploymentBucketName": "amplify-learnpool-dev-130655-deployment",
+          "s3Key": "amplify-builds/learnpoolAfterMediaConvertTrigger-4239577558764a6e7950-build.zip",
+          "cdnHostname": "https://cdn.learnpool.pl/"
+        },
+        "learnpoolauthdevPostConfirmation": {
+          "GROUP": "user",
+          "deploymentBucketName": "amplify-learnpool-dev-130655-deployment",
+          "s3Key": "amplify-builds/learnpoolauthdevPostConfirmation-656e4b7942447779336e-build.zip"
+        },
+        "learnpoolstoragetrigger": {
+          "mediaconvertDestinationBucket": "s3://learnpooldevoutput/",
+          "deploymentBucketName": "amplify-learnpool-dev-130655-deployment",
+          "s3Key": "amplify-builds/learnpoolstoragetrigger-4c704939444d32304852-build.zip"
+        },
+        "learnpoolauthdevPreSignup": {
+          "deploymentBucketName": "amplify-learnpool-dev-130655-deployment",
+          "s3Key": "amplify-builds/learnpoolauthdevPreSignup-4e364543314352734443-build.zip"
+        }
+      },
+      "auth": {
+        "learnpoolauthdev": {},
+        "userPoolGroups": {}
+      },
+      "storage": {
+        "learnpooldevs3": {}
+      },
+      "api": {
+        "learnpool": {},
+        "learnpoolrestapi": {}
+      },
+      "analytics": {
+        "learnpool": {}
+      }
+    }
+  }
+}

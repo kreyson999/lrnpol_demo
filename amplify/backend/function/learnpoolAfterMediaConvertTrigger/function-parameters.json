@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "api": {
+      "learnpool": [
+        "Mutation"
+      ]
+    },
+    "storage": {
+      "CourseSectionStepVideo:@model(appsync)": [
+        "update"
+      ]
+    }
+  },
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "cdnHostname",
+      "environmentVariableName": "CDN_HOSTNAME"
+    }
+  ]
+}

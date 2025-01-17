@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "api": {
+      "learnpool": [
+        "Mutation"
+      ]
+    },
+    "storage": {
+      "CourseSectionStep:@model(appsync)": [
+        "update"
+      ],
+      "CourseSectionStepVideo:@model(appsync)": [
+        "create"
+      ]
+    }
+  },
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "mediaconvertDestinationBucket",
+      "environmentVariableName": "MEDIACONVERT_DESTINATION_BUCKET"
+    }
+  ]
+}

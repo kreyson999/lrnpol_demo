@@ -1,0 +1,21 @@
+{
+    "appName": "learnpool",
+    "roleName": "pinpointLambdaRole7ba4e16c",
+    "cloudformationPolicyName": "cloudformationPolicy7ba4e16c",
+    "cloudWatchPolicyName": "cloudWatchPolicy7ba4e16c",
+    "pinpointPolicyName": "pinpointPolicy7ba4e16c",
+    "authPolicyName": "pinpoint_amplify_7ba4e16c",
+    "unauthPolicyName": "pinpoint_amplify_7ba4e16c",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

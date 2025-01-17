@@ -1,0 +1,465 @@
+type CourseLandingPageSectionSubjectsSubject {
+  indexColor: String!
+  title: String!
+  titleTextColor: String!
+  content: String!
+  contentTextColor: String!
+  imageKey: String
+  imageBoxColor: String!
+}
+
+type CourseLandingPageSectionSubjects {
+  title: String!
+  titleTextColor: String!
+  subtitle: String!
+  subtitleTextColor: String!
+
+  subjects: [CourseLandingPageSectionSubjectsSubject]
+}
+
+type CourseLandingPageSectionCourseContent {
+  title: String!
+  titleTextColor: String!
+  subtitle: String!
+  subtitleTextColor: String!
+
+  sectionTitleBackgroundColor: String!
+  sectionTitleTextColor: String!
+  sectionArrowTextColor: String!
+
+  stepBackgroundColor: String!
+  stepTextColor: String!
+  stepIconColor: String!
+  stepDurationColor: String!
+
+  sectionBorderColor: String!
+  stepsDividerColor: String!
+}
+
+type CourseLandingPageSectionFeaturesItem {
+  backgroundColor: String!
+  textColor: String!
+  iconColor: String!
+}
+
+type CourseLandingPageSectionFeatures {
+  items: [CourseLandingPageSectionFeaturesItem]
+}
+
+type CourseLandingPageSectionAboutCourse {
+  title: String!
+  titleTextColor: String!
+  content: String!
+  contentTextColor: String!
+}
+
+type CourseLandingPageSectionRecommendedCourses {
+  titleTextColor: String!
+  subtitleTextColor: String!
+
+  courseTitleTextColor: String!
+  courseSlugs: [String]!
+}
+
+type CourseLandingPageSection {
+  backgroundColor: String!
+
+  aboutCourse: CourseLandingPageSectionAboutCourse
+  features: CourseLandingPageSectionFeatures
+  courseContent: CourseLandingPageSectionCourseContent
+  subjects: CourseLandingPageSectionSubjects
+  recommendedCourses: CourseLandingPageSectionRecommendedCourses
+}
+
+type CourseLandingPageHeader {
+  title: String!
+  titleColor: String!
+  subtitle: String!
+  subtitleColor: String!
+  backgroundColor: String!
+  callToActionBackgroundColor: String!
+  callToActionTextColor: String!
+  statsTitleTextColor: String!
+  statsValueTextColor: String!
+}
+
+type CourseLandingPageAppBar {
+  logoKey: String
+  backgroundColor: String!
+  watchCourseTextColor: String!
+}
+
+type CourseLandingPageFixedCard {
+  imageKey: String
+  backgroundColor: String!
+  buttonBackgroundColor: String!
+  buttonTextColor: String!
+  priceTextColor: String!
+  discountPriceTextColor: String!
+  titleTextColor: String!
+  descriptionTextColor: String!
+  featureCheckboxBackgroundColor: String!
+  featureCheckboxTextColor: String!
+  featureTextColor: String!
+}
+
+type CourseLandingPageFooter {
+  backgroundColor: String!
+  courseDomainTextColor: String!
+  poweredByTextColor: String!
+}
+
+type CourseLandingPage
+  @model(subscriptions: { level: off })
+  @auth(
+    rules: [
+      { allow: owner, operations: [read, update, delete] }
+      { allow: groups, groups: ["admin"] }
+      { allow: groups, groups: ["user"], operations: [read] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+
+  backgroundColor: String!
+
+  appBar: CourseLandingPageAppBar!
+  header: CourseLandingPageHeader!
+  fixedCard: CourseLandingPageFixedCard!
+  footer: CourseLandingPageFooter!
+
+  sections: [CourseLandingPageSection]
+
+  # Meta Tags
+  metaTitle: String
+  metaDescription: String
+  faviconKey: String
+
+  # Integrations
+  tawkPropertyId: String
+  tawkWidgetId: String
+
+  owner: String
+    @auth(
+      rules: [
+        { allow: owner, operations: [create, read, delete] }
+        { allow: groups, groups: ["admin"], operations: [create, read, delete] }
+      ]
+    )
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+}
+
+type Course
+  @model(subscriptions: { level: off })
+  @auth(
+    rules: [
+      { allow: owner, operations: [read, update, delete] }
+      { allow: groups, groups: ["admin"] }
+      { allow: groups, groups: ["user"], operations: [read] }
+      { allow: public, operations: [read] }
+      { allow: private, provider: identityPool }
+    ]
+  ) {
+  slug: String! @primaryKey
+
+  # Course Basic Info
+  domain: String!
+    @auth(
+      rules: [
+        { allow: private, provider: identityPool }
+        { allow: owner, operations: [read] }
+        { allow: groups, groups: ["user", "admin"], operations: [read] }
+        { allow: public, operations: [read] }
+      ]
+    )
+    @index(name: "byDomain", queryField: "courseByDomain")
+  title: String!
+  price: Float @default(value: "39.99")
+  discountPrice: Float
+  logoKey: String
+
+  # Course Status
+  status: CourseStatus!
+    @index(name: "byStatus", queryField: "courseByStatus")
+    @auth(
+      rules: [
+        { allow: groups, groups: ["admin"], operations: [read, update, delete] }
+        { allow: groups, groups: ["user"], operations: [read] }
+        { allow: owner, operations: [read, delete] }
+        { allow: public, operations: [read] }
+      ]
+    )
+
+  # Course Content
+  courseSections: [CourseSection] @hasMany
+
+  # Course Page Colors
+  courseLandingPage: CourseLandingPage @hasOne
+
+  # Integrations
+  facebookPixelId: String
+
+  # Users who bought the course
+  orders: [UserOrder] @hasMany(indexName: "byCourseSlug", fields: ["slug"])
+
+  # Course Plan subscriptions
+  subscriptions: [CourseSubscription]
+    @hasMany(indexName: "byCourseSlug", fields: ["slug"])
+
+  # Course Verification
+  verificationId: ID
+  verification: CourseVerification @hasOne(fields: ["verificationId"])
+
+  owner: String
+    @index(name: "byOwner", queryField: "courseByOwner")
+    @auth(
+      rules: [
+        { allow: owner, operations: [read, delete] }
+        { allow: groups, groups: ["user", "admin"], operations: [read] }
+      ]
+    )
+}
+
+type CourseSection
+  @model(subscriptions: { level: off })
+  @auth(
+    rules: [
+      { allow: owner, operations: [read, update, delete] }
+      { allow: groups, groups: ["user"], operations: [read] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  position: Int! @default(value: "0")
+  title: String!
+  course: Course! @belongsTo
+  courseSectionSteps: [CourseSectionStep] @hasMany
+  owner: String
+    @auth(
+      rules: [
+        { allow: owner, operations: [read, delete] }
+        { allow: groups, groups: ["admin"], operations: [read, delete] }
+        { allow: groups, groups: ["user"], operations: [read] }
+      ]
+    )
+}
+
+enum CourseSectionStepType {
+  VIDEO
+  TEST
+}
+
+enum CourseSectionStepStatus {
+  DRAFT
+  TO_REVIEW
+  PUBLISHED
+}
+
+type UploadedVideo {
+  identityId: String!
+  key: String!
+  size: Int!
+  fileName: String!
+}
+
+type CourseSectionStep
+  @model(subscriptions: { level: off })
+  @auth(
+    rules: [
+      { allow: owner, operations: [read, update, delete] }
+      { allow: groups, groups: ["admin"], operations: [read, update, delete] }
+      { allow: groups, groups: ["user"], operations: [read] }
+      { allow: public, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  position: Int! @default(value: "0")
+  title: String!
+  type: CourseSectionStepType!
+    @auth(
+      rules: [
+        { allow: owner, operations: [read, delete] }
+        { allow: groups, groups: ["admin"], operations: [read, delete] }
+        { allow: groups, groups: ["user"], operations: [read] }
+        { allow: public, operations: [read] }
+      ]
+    )
+  status: CourseSectionStepStatus!
+    @default(value: "DRAFT")
+    @auth(
+      rules: [
+        { allow: owner, operations: [read, delete] }
+        { allow: groups, groups: ["admin"], operations: [read, delete] }
+        { allow: groups, groups: ["user"], operations: [read] }
+        { allow: public, operations: [read] }
+      ]
+    )
+
+  # Uploaded video to Main S3 Bucket
+  uploadedVideo: UploadedVideo
+    @auth(
+      rules: [
+        { allow: owner, operations: [read, update, delete] }
+        { allow: groups, groups: ["admin"], operations: [read, delete] }
+      ]
+    )
+  # Video processed by MediaConvert and stored in CDN
+  courseSectionStepVideo: CourseSectionStepVideo @hasOne
+
+  courseSectionStepTest: CourseSectionStepTest @hasOne
+
+  courseSection: CourseSection! @belongsTo
+  userCourseStepProgress: [UserCourseStepProgress]
+    @hasMany(indexName: "byOwnerAndStep", fields: ["owner", "id"])
+  owner: String
+    @auth(
+      rules: [
+        { allow: owner, operations: [read, delete] }
+        { allow: groups, groups: ["user"], operations: [read] }
+        { allow: public, operations: [read] }
+      ]
+    )
+}
+
+enum CourseSectionStepVideoStatus {
+  PROCCESSING
+  UPLOADED
+}
+
+enum CourseSectionStepVideoURLResolution {
+  RES_360p
+  RES_480p
+  RES_720p
+  RES_1080p
+}
+
+type CourseSectionStepVideoURL {
+  resolution: [CourseSectionStepVideoURLResolution!]!
+  url: String!
+}
+
+type CourseSectionStepVideo
+  @model(subscriptions: { level: off })
+  @auth(
+    rules: [
+      { allow: owner, operations: [read, delete] }
+      { allow: groups, groups: ["instructor"], operations: [create] }
+      { allow: groups, groups: ["admin"] }
+      { allow: groups, groups: ["user"], operations: [read] }
+      { allow: public, operations: [read] }
+      { allow: private, provider: iam }
+    ]
+  ) {
+  id: ID!
+  status: CourseSectionStepVideoStatus!
+  url: CourseSectionStepVideoURL
+    @auth(rules: [{ allow: private, provider: identityPool }, { allow: owner }])
+  duration: Int!
+  courseSectionStep: CourseSectionStep! @belongsTo
+  owner: String
+    @auth(
+      rules: [
+        { allow: owner, operations: [create, read, delete] }
+        { allow: groups, groups: ["admin"], operations: [read, delete] }
+        { allow: groups, groups: ["user", "instructor"], operations: [read] }
+      ]
+    )
+}
+
+enum UserOrderStatus {
+  PAID
+  FAIL
+}
+
+enum PaymentMethod {
+  HOTPAY
+  STRIPE
+}
+
+type ReferralCode
+  @model(subscriptions: { level: off })
+  @auth(
+    rules: [
+      { allow: private, provider: identityPool }
+      { allow: groups, groups: ["user"], operations: [read] }
+      { allow: owner, operations: [create, delete] }
+    ]
+  ) {
+  code: String! @primaryKey
+  orders: [UserOrder] @hasMany
+  owner: String
+    @index
+    @auth(
+      rules: [
+        { allow: private, provider: identityPool }
+        { allow: owner, operations: [read] }
+        { allow: groups, groups: ["user"], operations: [read] }
+      ]
+    )
+}
+
+type UserOrder
+  @model(subscriptions: { level: off })
+  @auth(
+    rules: [
+      { allow: private, provider: identityPool }
+      { allow: groups, groups: ["admin"], operations: [read] }
+      { allow: owner, operations: [create, read] }
+    ]
+  ) {
+  id: ID!
+  status: UserOrderStatus
+    @auth(
+      rules: [
+        { allow: private, provider: identityPool }
+        { allow: groups, groups: ["admin"], operations: [read] }
+        { allow: owner, operations: [read] }
+      ]
+    )
+  paymentMethod: PaymentMethod!
+  price: Float
+  courseSlug: String!
+    @index(name: "byCourseSlug", queryField: "userOrderByCourseSlug")
+  course: Course! @belongsTo(fields: ["courseSlug"])
+
+  # currently not used
+  referralCode: ReferralCode @belongsTo
+
+  owner: String
+    @index(
+      name: "byOwnerAndCourse"
+      sortKeyFields: ["courseSlug"]
+      queryField: "userOrderByOwnerAndCourse"
+    )
+    @auth(rules: [{ allow: owner, operations: [read] }])
+}
+
+type UserCourseStepProgress
+  @model(subscriptions: { level: off })
+  @auth(
+    rules: [
+      { allow: private, provider: identityPool }
+      { allow: owner, operations: [create, update, read] }
+    ]
+  ) {
+  id: ID!
+  stepID: ID!
+  step: CourseSectionStep! @belongsTo(fields: ["stepID"])
+  durationInMs: Int!
+  owner: String
+    @index(
+      name: "byOwnerAndStep"
+      sortKeyFields: ["stepID"]
+      queryField: "userCourseStepProgressByOwnerAndStep"
+    )
+    @auth(
+      rules: [
+        { allow: owner, operations: [read] }
+        { allow: private, provider: identityPool }
+      ]
+    )
+}

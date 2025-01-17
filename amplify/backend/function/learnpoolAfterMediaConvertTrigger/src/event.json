@@ -1,0 +1,79 @@
+{
+  "version": "0",
+  "id": "7d55db37-96d8-1607-067d-10140d2a8733",
+  "detail-type": "MediaConvert Job State Change",
+  "source": "aws.mediaconvert",
+  "account": "645819159591",
+  "time": "2024-02-17T12:38:15Z",
+  "region": "eu-central-1",
+  "resources": [
+    "arn:aws:mediaconvert:eu-central-1:645819159591:jobs/1708173466788-afbps3"
+  ],
+  "detail": {
+    "timestamp": 1708173495545,
+    "accountId": "645819159591",
+    "queue": "arn:aws:mediaconvert:eu-central-1:645819159591:queues/Default",
+    "jobId": "1708173466788-afbps3",
+    "status": "COMPLETE",
+    "userMetadata": {
+      "app": "LEARNPOOL",
+      "stepId": "6b2f9a90-63c5-4b51-8913-62581ecddcbd"
+    },
+    "outputGroupDetails": [
+      {
+        "outputDetails": [
+          {
+            "outputFilePaths": [
+              "s3://learnpooldevoutput/courses/kurs-programowania-2/5a088fa2-bb15-499b-aaf2-aabf6bc498ea/2efdfde8-0cdd-44c3-a3fa-57d4c0a80766/HLS/output_360p.m3u8"
+            ],
+            "durationInMs": 35969,
+            "videoDetails": {
+              "widthInPx": 640,
+              "heightInPx": 360,
+              "averageBitrate": 2494982
+            }
+          },
+          {
+            "outputFilePaths": [
+              "s3://learnpooldevoutput/courses/kurs-programowania-2/5a088fa2-bb15-499b-aaf2-aabf6bc498ea/2efdfde8-0cdd-44c3-a3fa-57d4c0a80766/HLS/output_480p.m3u8"
+            ],
+            "durationInMs": 35969,
+            "videoDetails": {
+              "widthInPx": 854,
+              "heightInPx": 480,
+              "averageBitrate": 3985434
+            }
+          },
+          {
+            "outputFilePaths": [
+              "s3://learnpooldevoutput/courses/kurs-programowania-2/5a088fa2-bb15-499b-aaf2-aabf6bc498ea/2efdfde8-0cdd-44c3-a3fa-57d4c0a80766/HLS/output_720p.m3u8"
+            ],
+            "durationInMs": 35969,
+            "videoDetails": {
+              "widthInPx": 1280,
+              "heightInPx": 720,
+              "averageBitrate": 6479164
+            }
+          },
+          {
+            "outputFilePaths": [
+              "s3://learnpooldevoutput/courses/kurs-programowania-2/5a088fa2-bb15-499b-aaf2-aabf6bc498ea/2efdfde8-0cdd-44c3-a3fa-57d4c0a80766/HLS/output_1080p.m3u8"
+            ],
+            "durationInMs": 35969,
+            "videoDetails": {
+              "widthInPx": 1920,
+              "heightInPx": 1080,
+              "averageBitrate": 8464583
+            }
+          }
+        ],
+        "playlistFilePaths": [
+          "s3://learnpooldevoutput/courses/kurs-programowania-2/5a088fa2-bb15-499b-aaf2-aabf6bc498ea/2efdfde8-0cdd-44c3-a3fa-57d4c0a80766/HLS/output.m3u8"
+        ],
+        "type": "HLS_GROUP"
+      }
+    ],
+    "paddingInserted": 0,
+    "blackVideoDetected": 0
+  }
+}

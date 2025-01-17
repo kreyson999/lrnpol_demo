@@ -1,0 +1,24 @@
+[
+  {
+    "Action": ["iam:PassRole"],
+    "Resource": [
+      "arn:aws:iam::645819159591:role/service-role/MediaConvert_Default_Role"
+    ],
+    "Effect": "Allow",
+    "Sid": "PassRole"
+  },
+  {
+    "Action": ["mediaconvert:CreateJob"],
+    "Resource": ["*"],
+    "Effect": "Allow",
+    "Sid": "MediaConvertService"
+  },
+  {
+    "Action": ["dynamodb:UpdateItem", "dynamodb:PutItem"],
+    "Effect": "Allow",
+    "Resource": [
+      "arn:aws:dynamodb:eu-central-1:645819159591:table/CourseSectionStepVideo-bg2rcufrtvcgddmthiwl7ixmf4-dev",
+      "arn:aws:dynamodb:eu-central-1:645819159591:table/CourseSectionStep-bg2rcufrtvcgddmthiwl7ixmf4-dev"
+    ]
+  }
+]

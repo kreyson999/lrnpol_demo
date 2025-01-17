@@ -1,0 +1,38 @@
+{
+  "Records": [
+    {
+      "eventVersion": "2.1",
+      "eventSource": "aws:s3",
+      "awsRegion": "eu-central-1",
+      "eventTime": "2024-02-16T20:19:45.278Z",
+      "eventName": "ObjectCreated:CompleteMultipartUpload",
+      "userIdentity": {
+        "principalId": "AWS:AROAZMXOSKQT6N5EUHIQX:CognitoIdentityCredentials"
+      },
+      "requestParameters": {
+        "sourceIPAddress": "77.89.91.181"
+      },
+      "responseElements": {
+        "x-amz-request-id": "BC3SAM20C9Y9TY8V",
+        "x-amz-id-2": "SS/CO1TsdwsaqcGX9XMMkQ9TbcVnwGzaF/JKgqvGUzzhLDi4Bxg5RIcnWto0KOR/kB65VJCEvWnS2mzuwnIgQnQGfZ2D6aNK"
+      },
+      "s3": {
+        "s3SchemaVersion": "1.0",
+        "configurationId": "ZGVjM2VkOWUtZTVhYy00ZDlmLWI2ZDUtZWFhODRlMmM5ZWU2",
+        "bucket": {
+          "name": "learnpooldevbucket130655-dev",
+          "ownerIdentity": {
+            "principalId": "A22WG395KVIFNT"
+          },
+          "arn": "arn:aws:s3:::learnpooldevbucket130655-dev"
+        },
+        "object": {
+          "key": "protected/eu-central-1%3A965dd254-2772-c0fc-5a8d-bdbaa26bedef/courses/kurs-programowania-2/5a088fa2-bb15-499b-aaf2-aabf6bc498ea/2efdfde8-0cdd-44c3-a3fa-57d4c0a80766/video.mp4",
+          "size": 9171512,
+          "eTag": "a6853be7ac291e83bebc86348d86bda1-2",
+          "sequencer": "0065CFC352612BDFAA"
+        }
+      }
+    }
+  ]
+}

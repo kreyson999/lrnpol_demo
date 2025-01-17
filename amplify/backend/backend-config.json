@@ -1,0 +1,290 @@
+{
+  "analytics": {
+    "learnpool": {
+      "providerPlugin": "awscloudformation",
+      "service": "Pinpoint"
+    }
+  },
+  "api": {
+    "learnpool": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "learnpoolauthdev"
+        }
+      ],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "apiKeyConfig": {
+                "apiKeyExpirationDate": "2024-10-14T10:06:46.194Z",
+                "apiKeyExpirationDays": 60,
+                "description": ""
+              },
+              "authenticationType": "API_KEY"
+            },
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ],
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authlearnpoolauthdev"
+            }
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  },
+  "auth": {
+    "learnpoolauthdev": {
+      "customAuth": false,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "learnpoolauthdevPostConfirmation",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "learnpoolauthdevPreSignup",
+          "triggerProvider": "Cognito"
+        }
+      ],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL",
+          "FAMILY_NAME",
+          "GIVEN_NAME"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    },
+    "userPoolGroups": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID",
+            "IdentityPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "learnpoolauthdev"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito-UserPool-Groups"
+    }
+  },
+  "function": {
+    "learnpoolAfterMediaConvertTrigger": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "learnpool"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "learnpoolauthdevPostConfirmation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "learnpoolauthdevPreSignup": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "learnpoolstoragetrigger": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "learnpool"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_learnpoolAfterMediaConvertTrigger_cdnHostname": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "learnpoolAfterMediaConvertTrigger"
+        }
+      ]
+    },
+    "AMPLIFY_function_learnpoolAfterMediaConvertTrigger_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "learnpoolAfterMediaConvertTrigger"
+        }
+      ]
+    },
+    "AMPLIFY_function_learnpoolAfterMediaConvertTrigger_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "learnpoolAfterMediaConvertTrigger"
+        }
+      ]
+    },
+    "AMPLIFY_function_learnpoolauthdevPostConfirmation_GROUP": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "learnpoolauthdevPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_learnpoolauthdevPostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "learnpoolauthdevPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_learnpoolauthdevPostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "learnpoolauthdevPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_learnpoolauthdevPreSignup_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "learnpoolauthdevPreSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_learnpoolauthdevPreSignup_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "learnpoolauthdevPreSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_learnpoolstoragetrigger_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "learnpoolstoragetrigger"
+        }
+      ]
+    },
+    "AMPLIFY_function_learnpoolstoragetrigger_mediaconvertDestinationBucket": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "learnpoolstoragetrigger"
+        }
+      ]
+    },
+    "AMPLIFY_function_learnpoolstoragetrigger_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "learnpoolstoragetrigger"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "learnpooldevs3": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "LambdaExecutionRole"
+          ],
+          "category": "function",
+          "resourceName": "learnpoolstoragetrigger"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "learnpoolauthdev"
+        },
+        {
+          "attributes": [
+            "instructorGroupRole"
+          ],
+          "category": "auth",
+          "resourceName": "userPoolGroups"
+        },
+        {
+          "attributes": [
+            "userGroupRole"
+          ],
+          "category": "auth",
+          "resourceName": "userPoolGroups"
+        },
+        {
+          "attributes": [
+            "adminGroupRole"
+          ],
+          "category": "auth",
+          "resourceName": "userPoolGroups"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
+    }
+  }
+}

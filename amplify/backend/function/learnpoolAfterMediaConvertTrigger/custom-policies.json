@@ -1,0 +1,9 @@
+[
+  {
+    "Action": ["dynamodb:UpdateItem"],
+    "Effect": "Allow",
+    "Resource": [
+      "arn:aws:dynamodb:eu-central-1:645819159591:table/CourseSectionStepVideo-bg2rcufrtvcgddmthiwl7ixmf4-dev"
+    ]
+  }
+]

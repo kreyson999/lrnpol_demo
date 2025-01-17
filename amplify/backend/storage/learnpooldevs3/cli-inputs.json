@@ -1,0 +1,28 @@
+{
+  "resourceName": "learnpooldevs3",
+  "policyUUID": "0dbf9746",
+  "bucketName": "learnpooldevbucket",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "READ"
+  ],
+  "groupAccess": {
+    "instructor": [
+      "CREATE_AND_UPDATE",
+      "READ"
+    ],
+    "user": [
+      "CREATE_AND_UPDATE",
+      "READ"
+    ],
+    "admin": [
+      "CREATE_AND_UPDATE",
+      "READ",
+      "DELETE"
+    ]
+  },
+  "triggerFunction": "learnpoolstoragetrigger"
+}
